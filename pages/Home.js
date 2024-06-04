@@ -29,7 +29,11 @@ export default function Home() {
     async function uploadImage(uri, fileType) {
         const response = await fetch(uri);
         const blob = await response.blob();
-        const storageRef = ref(storage, "images/" + fileType);
+        
+        // Generate a unique filename using timestamp
+        const uniqueFileName = new Date().getTime() + "_" + fileType;
+        const storageRef = ref(storage, "images/" + uniqueFileName);
+        
         const uploadTask = uploadBytesResumable(storageRef, blob);
 
         uploadTask.on(
